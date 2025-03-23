@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { FcGoogle } from "react-icons/fc";
+import DarkMode from "../components/DarkMode";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -19,10 +20,13 @@ const Login = () => {
 
   return (
     <div className="flex min-h-screen w-screen">
-      <div className="w-full bg-gradient-to-r from-pink-500 via-purple-500 to-amber-400 animate-gradient flex items-center justify-center">
+      <div className="w-full bg-gradient-to-r from-pink-500 via-purple-500 to-amber-400 animate-gradient bg-[length:200%_200%] px-5 flex items-center justify-center relative">
+        <div className="absolute top-5 right-10">
+          <DarkMode />
+        </div>
         <form
           onSubmit={handleSubmit}
-          className="px-8 py-5 max-w-96 flex flex-col gap-y-3 w-full bg-white shadow-lg rounded-lg"
+          className="px-8 py-5 max-w-96 flex flex-col gap-y-3 w-full bg-white dark:bg-[#0F172A] shadow-lg rounded-lg"
         >
           <h2 className="text-3xl font-bold mb-3">Login</h2>
           <input
@@ -31,7 +35,7 @@ const Login = () => {
             placeholder="Email"
             value={formData.email}
             onChange={handleChange}
-            className="border px-3 py-2 w-full rounded-lg"
+            className="border px-3 py-2 w-full rounded-lg focus:outline-none bg-[#E7E7E7] focus:bg-white"
           />
           <input
             type="password"
@@ -39,7 +43,7 @@ const Login = () => {
             placeholder="Password"
             value={formData.password}
             onChange={handleChange}
-            className="border px-3 py-2 w-full rounded-lg"
+            className="border px-3 py-2 w-full rounded-lg focus:outline-none bg-[#E7E7E7] focus:bg-white"
           />
           <button
             type="submit"

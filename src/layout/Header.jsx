@@ -16,9 +16,9 @@ const Header = () => {
 
   return (
     <>
-      <header className="bg-white dark:bg-black sticky top-0 z-50">
+      <header className="bg-white dark:bg-[#0F172A] sticky -top-1 z-50">
         <nav className="w-full px-5 py-[11px] flex items-center justify-between gap-x-5 border-b">
-          <NavLink>
+          <NavLink to={"/"}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="E18si dark:bg-white dark:outline"
@@ -47,16 +47,16 @@ const Header = () => {
               type="search"
               name="Search"
               placeholder="Search photos and illustrations"
-              className="border rounded-full px-16 py-2 w-full focus:outline-none bg-[#E7E7E7] focus:bg-white"
+              className="border rounded-full px-16 py-2 w-full focus:outline-none dark:bg-[#0F172A] bg-[#E7E7E7] focus:bg-white"
             />
             <button>
               <TbPhotoScan className="absolute w-6 h-6 top-2 right-5" />
             </button>
           </div>
-          <NavLink to="/login" className="text-sm">
+          <NavLink to="/login" className="text-sm hidden md:inline-block">
             Login
           </NavLink>
-          <NavLink to="/register" className="text-sm">
+          <NavLink to="/register" className="text-sm hidden md:inline-block">
             Register
           </NavLink>
           <DarkMode />
@@ -71,12 +71,12 @@ const Header = () => {
               <path d="M3 16h18v2H3v-2ZM3 6v2h18V6H3Zm0 7h18v-2H3v2Z" />
             </svg>
             {showMenu && (
-              <div className="absolute w-[600px] h-[300px] right-1 top-12 bg-white shadow shadow-gray-400 dark:bg-black rounded-lg p-5">
-                <div className="grid grid-cols-3 gap-4 text-sm">
+              <div className="absolute md:w-[600px] w-screen md:h-[300px] -right-3 -top-2 h-screen md:right-1 md:top-12 bg-white shadow shadow-gray-400 dark:bg-[#0F172A] rounded-lg p-5">
+                <div className="grid md:grid-cols-3 gap-4 text-sm">
                   <div>
                     <h3 className="font-bold mb-2">Company</h3>
                     <ul className="space-y-1 flex flex-col gap-y-2">
-                      <li>About</li>
+                      <NavLink to={"/about"}>About</NavLink>
                       <li>History</li>
                       <li>Join the team</li>
                       <li>Blog</li>

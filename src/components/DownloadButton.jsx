@@ -21,7 +21,7 @@ const DownloadButton = ({ url, filename = "image.jpg" }) => {
     <>
       <button
         onClick={handleDownload}
-        className="px-4 py-2 bg-white rounded-lg absolute bottom-2 right-3"
+        className="px-4 py-2 bg-white dark:bg-[#0F172A] rounded-lg absolute bottom-2 right-3"
       >
         <FaDownload />
       </button>

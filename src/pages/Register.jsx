@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { FcGoogle } from "react-icons/fc";
+import DarkMode from "../components/DarkMode";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -28,11 +29,14 @@ const Register = () => {
 
   return (
     <div className="flex min-h-screen w-screen">
-      <div className="w-2/5 bg-[url('https://picsum.photos/900/1200')] bg-center bg-cover"></div>
-      <div className="w-3/5 bg-gradient-to-r from-pink-500 via-purple-500 to-amber-400 animate-gradient flex items-center justify-center">
+      <div className="lg:w-2/5 w-full lg:bg-[url('https://picsum.photos/900/1200')] bg-center bg-cover hidden lg:block"></div>
+      <div className="w-full px-5 lg:w-3/5 bg-gradient-to-r from-pink-500 via-purple-500 to-amber-400 animate-gradient bg-[length:200%_200%] flex items-center justify-center relative">
+        <div className="absolute top-5 right-10">
+          <DarkMode />
+        </div>
         <form
           onSubmit={handleSubmit}
-          className="px-8 py-5 max-w-96 w-full bg-white shadow-lg rounded-lg"
+          className="px-8 py-5 max-w-96 w-full bg-white dark:bg-[#0F172A] shadow-lg rounded-lg"
         >
           <h2 className="text-3xl font-bold mb-3">Register</h2>
           <div className="flex flex-col gap-y-3">
@@ -42,7 +46,7 @@ const Register = () => {
               placeholder="Full Name"
               value={formData.displayName}
               onChange={handleChange}
-              className="border px-3 py-2 w-full rounded-lg"
+              className="border px-3 py-2 w-full rounded-lg focus:outline-none bg-[#E7E7E7] focus:bg-white"
             />
             <input
               type="email"
@@ -50,7 +54,7 @@ const Register = () => {
               placeholder="Email"
               value={formData.email}
               onChange={handleChange}
-              className="border px-3 py-2 w-full rounded-lg"
+              className="border px-3 py-2 w-full rounded-lg focus:outline-none bg-[#E7E7E7] focus:bg-white"
             />
             <input
               type="password"
@@ -58,7 +62,7 @@ const Register = () => {
               placeholder="Password"
               value={formData.password}
               onChange={handleChange}
-              className="border px-3 py-2 w-full rounded-lg"
+              className="border px-3 py-2 w-full rounded-lg focus:outline-none bg-[#E7E7E7] focus:bg-white"
             />
             <input
               type="password"
@@ -66,7 +70,7 @@ const Register = () => {
               placeholder="Confirm Password"
               value={formData.confirmPassword}
               onChange={handleChange}
-              className="border px-3 py-2 w-full rounded-lg"
+              className="border px-3 py-2 w-full rounded-lg focus:outline-none bg-[#E7E7E7] focus:bg-white"
             />
             <button
               type="submit"
