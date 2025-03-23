@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const BASE_URL = "https://api.unsplash.com";
-const ACCESS_KEY = import.meta.env.VITE_ACCESS_KEY;
+const ACCESS_KEY = `Xg5XCjz4AB1tGDnDJwYcfFBPnSSH6njcs7-AcSFu0sw`;
+//import.meta.env.VITE_ACCESS_KEY
 
 const privateApi = axios.create({
   baseURL: BASE_URL,
