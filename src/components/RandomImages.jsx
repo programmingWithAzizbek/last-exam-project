@@ -34,20 +34,27 @@ const RandomImages = () => {
   );
 
   return (
-    <div className="py-10 grid grid-cols-3 gap-4">
+    <div
+      className="py-10 mx-auto grid gap-4"
+      style={{
+        gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+        gridAutoFlow: "dense",
+      }}
+    >
       {photos.length > 0
         ? photos.map((photo, index) => {
+            const uniqueKey = `${photo.id}-${index}`;
             if (index === photos.length - 1) {
               return (
                 <div
                   ref={lastPhotoRef}
-                  key={photo.id}
+                  key={uniqueKey}
                   className="rounded-lg overflow-hidden shadow-lg relative"
                 >
                   <img
                     src={photo.urls.small}
                     alt={photo.alt_description}
-                    className="w-full h-48 object-cover"
+                    className="w-full h-full object-cover"
                   />
                   <DownloadButton
                     url={photo.urls.full}
@@ -58,13 +65,13 @@ const RandomImages = () => {
             }
             return (
               <div
-                key={photo.id}
+                key={uniqueKey}
                 className="rounded-lg overflow-hidden shadow-lg relative"
               >
                 <img
                   src={photo.urls.small}
                   alt={photo.alt_description}
-                  className="w-full h-48 object-cover"
+                  className="w-full h-full object-cover"
                 />
                 <DownloadButton
                   url={photo.urls.full}
@@ -74,7 +81,10 @@ const RandomImages = () => {
             );
           })
         : Array.from({ length: 10 }).map((_, index) => (
-            <div key={index} className="flex w-full flex-col gap-4">
+            <div
+              key={`skeleton-${index}`}
+              className="flex w-full flex-col gap-4"
+            >
               <div className="skeleton h-32 w-full"></div>
             </div>
           ))}

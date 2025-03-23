@@ -3,28 +3,19 @@ import { NavLink } from "react-router-dom";
 import { CgSearch } from "react-icons/cg";
 import { TbPhotoScan } from "react-icons/tb";
 import DarkMode from "../components/DarkMode";
+import useAuth from "../hooks/useAuth";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
   const handleShow = () => {
     setShowMenu(!showMenu);
   };
-
-  // const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const { logoutUser } = useAuth();
+  const user = useSelector((state) => state.auth.user);
 
   return (
     <>
-      {/* {isAuthenticated && (
-        <div className="w-full bg-[#111] dark:bg-white">
-          <div className="w-full px-2 py-[9px] flex justify-center">
-            <div className="max-w-3xl flex items-center">
-              <p className="text-white dark:text-black">
-                Your Emalil <span></span>
-              </p>
-            </div>
-          </div>
-        </div>
-      )} */}
       <header className="bg-white dark:bg-black sticky top-0 z-50">
         <nav className="w-full px-5 py-[11px] flex items-center justify-between gap-x-5 border-b">
           <NavLink>
@@ -107,6 +98,14 @@ const Header = () => {
                       <li>Trends</li>
                     </ul>
                   </div>
+                  {user ? (
+                    <button
+                      onClick={logoutUser}
+                      className="bg-red-500 px-4 py-2 rounded"
+                    >
+                      Logout
+                    </button>
+                  ) : null}
                 </div>
               </div>
             )}
