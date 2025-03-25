@@ -5,9 +5,11 @@ const Likes = () => {
   const likedImages = useSelector((state) => state.likes.likedImages);
   const savedPhotos = JSON.parse(localStorage.getItem("savedPhotos")) || [];
 
-  const likedPhotos = savedPhotos.filter((photo) =>
-    likedImages.includes(photo.id)
-  );
+  const likedPhotos = savedPhotos
+    .filter((photo) => likedImages.includes(photo.id))
+    .filter(
+      (photo, index, self) => index === self.findIndex((p) => p.id === photo.id)
+    );
 
   return (
     <div

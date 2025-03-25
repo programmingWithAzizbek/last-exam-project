@@ -30,7 +30,15 @@ const RandomImages = () => {
     if (loading) return;
     setLoading(true);
     const data = await getRandomPhotos(30);
-    setPhotos((prevPhotos) => [...prevPhotos, ...data]);
+    setPhotos((prevPhotos) => {
+      const uniquePhotos = [
+        ...prevPhotos,
+        ...data.filter(
+          (newPhoto) => !prevPhotos.some((p) => p.id === newPhoto.id)
+        ),
+      ];
+      return uniquePhotos;
+    });
     setLoading(false);
   }, [loading]);
 
