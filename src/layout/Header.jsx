@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { debounce } from "lodash";
+
 import { NavLink } from "react-router-dom";
 import { CgSearch } from "react-icons/cg";
 import { TbPhotoScan } from "react-icons/tb";
@@ -7,21 +9,20 @@ import useAuth from "../hooks/useAuth";
 import { useSelector, useDispatch } from "react-redux";
 import { AiFillLike } from "react-icons/ai";
 import { setSearchQuery } from "../store/searchSlice";
-import debounce from "lodash/debounce";
 
 const Header = () => {
-  const [showMenu, setShowMenu] = useState(false);
+  const [isMenuOpen, setShowMenu] = useState(false);
+
   const handleShow = () => {
-    setShowMenu(!showMenu);
+    setShowMenu(!isMenuOpen);
   };
   const { logoutUser } = useAuth();
   const user = useSelector((state) => state.auth.user);
-
   const likedImagesCount = useSelector(
     (state) => state.likes.likedImages.length
   );
-
   const dispatch = useDispatch();
+
   const handleSearch = debounce((value) => {
     dispatch(setSearchQuery(value));
   }, 500);
@@ -56,10 +57,11 @@ const Header = () => {
               <CgSearch className="w-6 h-6" />
             </button>
             <input
+              aria-label="Search photos and illustrations"
               type="search"
               name="Search"
               placeholder="Search photos and illustrations"
-              onChange={(e) => handleSearch(e.target.value)}
+              onChange={(e) => handleSearch(e.target.value.trim())}
               className="border rounded-full px-16 py-2 w-full focus:outline-none dark:bg-[#0F172A] bg-[#E7E7E7] focus:bg-white"
             />
             <button>
@@ -77,7 +79,11 @@ const Header = () => {
             Register
           </NavLink>
           <DarkMode />
-          <button onClick={handleShow} className="relative p-2">
+          <button
+            onClick={handleShow}
+            className="relative p-2"
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="w-6 h-6 text-black dark:text-white"
@@ -87,7 +93,7 @@ const Header = () => {
             >
               <path d="M3 16h18v2H3v-2ZM3 6v2h18V6H3Zm0 7h18v-2H3v2Z" />
             </svg>
-            {showMenu && (
+            {isMenuOpen && (
               <div className="absolute -right-1 min-w-40 min-h-60 md:right-1 top-12 bg-white shadow shadow-gray-400 dark:bg-[#0F172A] rounded-lg p-5">
                 <div className="flex flex-col gap-4 text-sm">
                   <div>

@@ -6,6 +6,7 @@ import { toggleLike, loadLikes } from "../store/likeSlice";
 import { AiFillLike } from "react-icons/ai";
 import { AiOutlineLike } from "react-icons/ai";
 import { toast } from "react-toastify";
+import debounce from "lodash/debounce";
 
 const RandomImages = () => {
   const dispatch = useDispatch();
@@ -63,17 +64,16 @@ const RandomImages = () => {
     [loading, fetchPhotos]
   );
 
-  const handleLike = (imageId) => {
+  const handleLike = debounce((imageId) => {
     dispatch(toggleLike(imageId));
     if (likedImages.includes(imageId)) {
       toast.error("Rasm sevimliylar ro‘yxatidan o‘chirildi");
     } else {
       toast.success("Rasm sevimliylar ro‘yxatiga qo‘shildi");
     }
-  };
+  }, 300);
 
   const searchQuery = useSelector((state) => state.search.query.toLowerCase());
-
   const filteredPhotos = photos.filter((photo) =>
     photo.alt_description?.toLowerCase().includes(searchQuery)
   );
@@ -129,6 +129,13 @@ const RandomImages = () => {
           ))
         : null}
       {loading && <p className="text-center col-span-3">Yuklanmoqda...</p>}
+      {photos.length === 0 && !loading && (
+        <div className="flex w-full flex-col gap-4">
+          <div className="skeleton h-32 w-full"></div>
+          <div className="skeleton h-32 w-full"></div>
+          <div className="skeleton h-32 w-full"></div>
+        </div>
+      )}
     </div>
   );
 };
