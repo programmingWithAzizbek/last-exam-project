@@ -4,8 +4,10 @@ import { CgSearch } from "react-icons/cg";
 import { TbPhotoScan } from "react-icons/tb";
 import DarkMode from "../components/DarkMode";
 import useAuth from "../hooks/useAuth";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { AiFillLike } from "react-icons/ai";
+import { setSearchQuery } from "../store/searchSlice";
+import debounce from "lodash/debounce";
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -18,6 +20,11 @@ const Header = () => {
   const likedImagesCount = useSelector(
     (state) => state.likes.likedImages.length
   );
+
+  const dispatch = useDispatch();
+  const handleSearch = debounce((value) => {
+    dispatch(setSearchQuery(value));
+  }, 500);
 
   return (
     <>
@@ -52,6 +59,7 @@ const Header = () => {
               type="search"
               name="Search"
               placeholder="Search photos and illustrations"
+              onChange={(e) => handleSearch(e.target.value)}
               className="border rounded-full px-16 py-2 w-full focus:outline-none dark:bg-[#0F172A] bg-[#E7E7E7] focus:bg-white"
             />
             <button>

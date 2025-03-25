@@ -30,7 +30,7 @@ const useAuth = () => {
         displayName,
         email,
         photoURL: photoURL || null,
-        password, // Store password securely
+        password,
       };
 
       dispatch(loginSuccess(user));
@@ -53,7 +53,7 @@ const useAuth = () => {
         displayName: userCredential.user.displayName,
         email,
         photoURL: userCredential.user.photoURL || null,
-        password, // Store password securely
+        password,
       };
 
       dispatch(loginSuccess(user));
@@ -73,7 +73,7 @@ const useAuth = () => {
         displayName: result.user.displayName,
         email: result.user.email,
         photoURL: result.user.photoURL,
-        password: null, // No password for Google sign-in
+        password: null,
       };
 
       dispatch(loginSuccess(user));

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleLike, loadLikes } from "../store/likeSlice";
 import { AiFillLike } from "react-icons/ai";
 import { AiOutlineLike } from "react-icons/ai";
+import { toast } from "react-toastify";
 
 const RandomImages = () => {
   const dispatch = useDispatch();
@@ -64,7 +65,18 @@ const RandomImages = () => {
 
   const handleLike = (imageId) => {
     dispatch(toggleLike(imageId));
+    if (likedImages.includes(imageId)) {
+      toast.error("Rasm sevimliylar ro‘yxatidan o‘chirildi");
+    } else {
+      toast.success("Rasm sevimliylar ro‘yxatiga qo‘shildi");
+    }
   };
+
+  const searchQuery = useSelector((state) => state.search.query.toLowerCase());
+
+  const filteredPhotos = photos.filter((photo) =>
+    photo.alt_description?.toLowerCase().includes(searchQuery)
+  );
 
   return (
     <div
@@ -74,13 +86,13 @@ const RandomImages = () => {
         gridAutoFlow: "dense",
       }}
     >
-      {photos.length > 0
-        ? photos.map((photo, index) => {
+      {filteredPhotos.length > 0
+        ? filteredPhotos.map((photo, index) => {
             const uniqueKey = `${photo.id}-${index}`;
             const isLiked = likedImages.includes(photo.id);
             return (
               <div
-                ref={index === photos.length - 1 ? lastPhotoRef : null}
+                ref={index === filteredPhotos.length - 1 ? lastPhotoRef : null}
                 key={uniqueKey}
                 className="rounded-lg overflow-hidden shadow-lg relative"
               >
@@ -106,14 +118,16 @@ const RandomImages = () => {
               </div>
             );
           })
-        : Array.from({ length: 10 }).map((_, index) => (
+        : photos.length === 0 && !loading
+        ? Array.from({ length: 10 }).map((_, index) => (
             <div
               key={`skeleton-${index}`}
               className="flex w-full flex-col gap-4"
             >
               <div className="skeleton h-32 w-full"></div>
             </div>
-          ))}
+          ))
+        : null}
       {loading && <p className="text-center col-span-3">Yuklanmoqda...</p>}
     </div>
   );

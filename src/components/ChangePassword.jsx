@@ -1,5 +1,6 @@
 import { getAuth, updatePassword } from "firebase/auth";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const ChangePassword = () => {
   const auth = getAuth();
@@ -8,15 +9,15 @@ const ChangePassword = () => {
 
   const handleChangePassword = async () => {
     if (!user) {
-      alert("Siz tizimga kirishingiz kerak!");
+      toast.warn("Siz tizimga kirishingiz kerak!");
       return;
     }
 
     try {
       await updatePassword(user, newPassword);
-      alert("Parolingiz muvaffaqiyatli o‘zgartirildi!");
+      toast.success("Parolingiz muvaffaqiyatli o‘zgartirildi!");
     } catch (error) {
-      alert("Xatolik: " + error.message);
+      toast.error("Xatolik: " + error.message);
     }
   };
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { toast } from "react-toastify";
 
 const ForgotPassword = () => {
   const auth = getAuth();
@@ -8,9 +9,9 @@ const ForgotPassword = () => {
   const handleForgotPassword = async () => {
     try {
       await sendPasswordResetEmail(auth, email);
-      alert("Parolni tiklash havolasi emailga jo‘natildi!");
+      toast.success("Parolni tiklash havolasi emailga jo‘natildi!");
     } catch (error) {
-      alert("Xatolik: " + error.message);
+      toast.error("Xatolik: " + error.message);
     }
   };
 
