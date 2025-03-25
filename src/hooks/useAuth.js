@@ -16,20 +16,21 @@ const useAuth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const register = async (displayName, email, password) => {
+  const register = async (displayName, email, password, photoURL) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
-      await updateProfile(userCredential.user, { displayName });
+      await updateProfile(userCredential.user, { displayName, photoURL });
 
       const user = {
         uid: userCredential.user.uid,
         displayName,
         email,
-        photoURL: null,
+        photoURL: photoURL || null,
+        password, // Store password securely
       };
 
       dispatch(loginSuccess(user));
@@ -52,6 +53,7 @@ const useAuth = () => {
         displayName: userCredential.user.displayName,
         email,
         photoURL: userCredential.user.photoURL || null,
+        password, // Store password securely
       };
 
       dispatch(loginSuccess(user));
@@ -71,6 +73,7 @@ const useAuth = () => {
         displayName: result.user.displayName,
         email: result.user.email,
         photoURL: result.user.photoURL,
+        password: null, // No password for Google sign-in
       };
 
       dispatch(loginSuccess(user));

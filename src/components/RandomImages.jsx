@@ -1,11 +1,30 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { getRandomPhotos } from "../api/privateApi";
 import DownloadButton from "./DownloadButton";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleLike, loadLikes } from "../store/likeSlice";
+import { AiFillLike } from "react-icons/ai";
+import { AiOutlineLike } from "react-icons/ai";
 
 const RandomImages = () => {
-  const [photos, setPhotos] = useState([]);
+  const dispatch = useDispatch();
+  const likedImages = useSelector((state) => state.likes.likedImages);
+
+  const loadPhotosFromLocalStorage = () => {
+    return JSON.parse(localStorage.getItem("savedPhotos")) || [];
+  };
+
+  const [photos, setPhotos] = useState(loadPhotosFromLocalStorage());
   const [loading, setLoading] = useState(false);
   const observer = useRef();
+
+  useEffect(() => {
+    dispatch(loadLikes());
+  }, [dispatch]);
+
+  useEffect(() => {
+    localStorage.setItem("savedPhotos", JSON.stringify(photos));
+  }, [photos]);
 
   const fetchPhotos = useCallback(async () => {
     if (loading) return;
@@ -16,7 +35,9 @@ const RandomImages = () => {
   }, [loading]);
 
   useEffect(() => {
-    fetchPhotos();
+    if (photos.length === 0) {
+      fetchPhotos();
+    }
   }, []);
 
   const lastPhotoRef = useCallback(
@@ -33,6 +54,10 @@ const RandomImages = () => {
     [loading, fetchPhotos]
   );
 
+  const handleLike = (imageId) => {
+    dispatch(toggleLike(imageId));
+  };
+
   return (
     <div
       className="py-10 mx-auto grid gap-4"
@@ -44,27 +69,10 @@ const RandomImages = () => {
       {photos.length > 0
         ? photos.map((photo, index) => {
             const uniqueKey = `${photo.id}-${index}`;
-            if (index === photos.length - 1) {
-              return (
-                <div
-                  ref={lastPhotoRef}
-                  key={uniqueKey}
-                  className="rounded-lg overflow-hidden shadow-lg relative"
-                >
-                  <img
-                    src={photo.urls.small}
-                    alt={photo.alt_description}
-                    className="w-full h-full object-cover"
-                  />
-                  <DownloadButton
-                    url={photo.urls.full}
-                    filename={`unsplash-${photo.id}.jpg`}
-                  />
-                </div>
-              );
-            }
+            const isLiked = likedImages.includes(photo.id);
             return (
               <div
+                ref={index === photos.length - 1 ? lastPhotoRef : null}
                 key={uniqueKey}
                 className="rounded-lg overflow-hidden shadow-lg relative"
               >
@@ -73,6 +81,16 @@ const RandomImages = () => {
                   alt={photo.alt_description}
                   className="w-full h-full object-cover"
                 />
+                <button
+                  className={"absolute top-2 right-2 px-4 py-2 rounded"}
+                  onClick={() => handleLike(photo.id)}
+                >
+                  {isLiked ? (
+                    <AiFillLike className="w-6 h-6 text-red-500" />
+                  ) : (
+                    <AiOutlineLike className="w-6 h-6 text-[#0F172A]" />
+                  )}
+                </button>
                 <DownloadButton
                   url={photo.urls.full}
                   filename={`unsplash-${photo.id}.jpg`}

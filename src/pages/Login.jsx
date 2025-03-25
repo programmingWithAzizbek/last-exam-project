@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { FcGoogle } from "react-icons/fc";
 import DarkMode from "../components/DarkMode";
+import ForgotPassword from "../components/ForgotPassword";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -58,6 +59,7 @@ const Login = () => {
           >
             Login with <FcGoogle />
           </button>
+          <ForgotPassword />
           <NavLink to={"/register"}>Register</NavLink>
         </form>
       </div>

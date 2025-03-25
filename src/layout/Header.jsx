@@ -5,6 +5,7 @@ import { TbPhotoScan } from "react-icons/tb";
 import DarkMode from "../components/DarkMode";
 import useAuth from "../hooks/useAuth";
 import { useSelector } from "react-redux";
+import { AiFillLike } from "react-icons/ai";
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -14,11 +15,15 @@ const Header = () => {
   const { logoutUser } = useAuth();
   const user = useSelector((state) => state.auth.user);
 
+  const likedImagesCount = useSelector(
+    (state) => state.likes.likedImages.length
+  );
+
   return (
     <>
       <header className="bg-white dark:bg-[#0F172A] sticky -top-1 z-50">
         <nav className="w-full px-5 py-[11px] flex items-center justify-between gap-x-5 border-b">
-          <NavLink to={"/"}>
+          <NavLink to={"/"} className={"hidden md:inline-block"}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="E18si dark:bg-white dark:outline"
@@ -53,6 +58,10 @@ const Header = () => {
               <TbPhotoScan className="absolute w-6 h-6 top-2 right-5" />
             </button>
           </div>
+          <NavLink to={"/likes"} className={"flex items-center gap-x-2"}>
+            <AiFillLike className="w-6 h-6 text-red-500" />
+            <span>{likedImagesCount}</span>
+          </NavLink>
           <NavLink to="/login" className="text-sm hidden md:inline-block">
             Login
           </NavLink>
@@ -71,31 +80,14 @@ const Header = () => {
               <path d="M3 16h18v2H3v-2ZM3 6v2h18V6H3Zm0 7h18v-2H3v2Z" />
             </svg>
             {showMenu && (
-              <div className="absolute md:w-[600px] w-screen md:h-[300px] -right-3 -top-2 h-screen md:right-1 md:top-12 bg-white shadow shadow-gray-400 dark:bg-[#0F172A] rounded-lg p-5">
-                <div className="grid md:grid-cols-3 gap-4 text-sm">
+              <div className="absolute -right-1 min-w-40 min-h-60 md:right-1 top-12 bg-white shadow shadow-gray-400 dark:bg-[#0F172A] rounded-lg p-5">
+                <div className="flex flex-col gap-4 text-sm">
                   <div>
                     <h3 className="font-bold mb-2">Company</h3>
                     <ul className="space-y-1 flex flex-col gap-y-2">
+                      <NavLink to={"/"}>Home</NavLink>
                       <NavLink to={"/about"}>About</NavLink>
-                      <li>History</li>
-                      <li>Join the team</li>
-                      <li>Blog</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h3 className="font-bold mb-2">Product</h3>
-                    <ul className="space-y-1 flex flex-col gap-y-2">
-                      <li>Developers/API</li>
-                      <li>Unsplash Dataset</li>
-                      <li>Apps & Plugins</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h3 className="font-bold mb-2">Community</h3>
-                    <ul className="space-y-1 flex flex-col gap-y-2">
-                      <li>Become a Contributor</li>
-                      <li>Collections</li>
-                      <li>Trends</li>
+                      <NavLink to={"/profile"}>Profile</NavLink>
                     </ul>
                   </div>
                   {user ? (
