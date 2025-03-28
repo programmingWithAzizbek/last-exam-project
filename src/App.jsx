@@ -8,6 +8,7 @@ import DarkModeProvider from "./layout/DarkModeProvider";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Profile from "./pages/Profile";
 import Likes from "./pages/Likes";
+import { Analytics } from "@vercel/analytics/react";
 
 const App = () => {
   return (
@@ -15,15 +16,17 @@ const App = () => {
       <Routes>
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Layout />}>
-            <Route index element={<Home />}></Route>
-            <Route path="/about" element={<About />}></Route>
-            <Route path="/profile" element={<Profile />}></Route>
-            <Route path="/likes" element={<Likes />}></Route>
+            <Route index element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/likes" element={<Likes />} />
           </Route>
         </Route>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/register" element={<Register />}></Route>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
+
+      <Analytics />
     </DarkModeProvider>
   );
 };
